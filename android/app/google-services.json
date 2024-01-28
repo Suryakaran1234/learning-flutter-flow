@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "856426233437",
+    "project_id": "fir-flutterflow-7668d",
+    "storage_bucket": "fir-flutterflow-7668d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856426233437:android:04146276c3fcc472bd97b4",
+        "android_client_info": {
+          "package_name": "com.mycompany.demo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQZsHFZeCbluawPfBa_votc6hNqzBq6wo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
