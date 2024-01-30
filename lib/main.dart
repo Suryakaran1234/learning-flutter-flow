@@ -11,12 +11,16 @@ import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
 import 'flutter_flow/nav/nav.dart';
 
+import 'backend/stripe/payment_manager.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
   await initFirebase();
 
   await FlutterFlowTheme.initialize();
+
+  await initializeStripe();
 
   runApp(const MyApp());
 }

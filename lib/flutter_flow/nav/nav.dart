@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '/backend/backend.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
@@ -90,6 +91,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'ProductList',
           path: '/productList',
           builder: (context, params) => const ProductListWidget(),
+        ),
+        FFRoute(
+          name: 'Checkout',
+          path: '/checkout',
+          asyncParams: {
+            'item': getDoc(['menuItems'], MenuItemsRecord.fromSnapshot),
+          },
+          builder: (context, params) => CheckoutWidget(
+            item: params.getParam('item', ParamType.Document),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

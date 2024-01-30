@@ -11,16 +11,10 @@ export 'menu_item_model.dart';
 class MenuItemWidget extends StatefulWidget {
   const MenuItemWidget({
     super.key,
-    this.name,
-    this.description,
-    double? price,
-    required this.docReference,
-  }) : price = price ?? 0.00;
+    required this.item,
+  });
 
-  final String? name;
-  final String? description;
-  final double price;
-  final DocumentReference? docReference;
+  final MenuItemsRecord? item;
 
   @override
   State<MenuItemWidget> createState() => _MenuItemWidgetState();
@@ -40,7 +34,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
     super.initState();
     _model = createModel(context, () => MenuItemModel());
 
-    _model.textController ??= TextEditingController(text: widget.name);
+    _model.textController ??= TextEditingController(text: widget.item?.name);
     _model.textFieldFocusNode ??= FocusNode();
   }
 
@@ -86,7 +80,10 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                         children: [
                           if (_model.isEditing == false)
                             Text(
-                              widget.name!,
+                              valueOrDefault<String>(
+                                widget.item?.name,
+                                'No name',
+                              ),
                               style: FlutterFlowTheme.of(context).headlineSmall,
                             ),
                           if (_model.isEditing == true)
@@ -151,7 +148,10 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 8.0, 0.0),
                         child: AutoSizeText(
-                          widget.description!.maybeHandleOverflow(
+                          valueOrDefault<String>(
+                            widget.item?.description,
+                            'No Description',
+                          ).maybeHandleOverflow(
                             maxChars: 70,
                             replacement: '…',
                           ),
@@ -186,7 +186,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                                 size: 24.0,
                               ),
                               onPressed: () async {
-                                await widget.docReference!
+                                await widget.item!.reference
                                     .update(createMenuItemsRecordData(
                                   name: _model.textController.text,
                                 ));
@@ -214,25 +214,51 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                       size: 24.0,
                     ),
                     onPressed: () async {
-                      await widget.docReference!.delete();
+                      await widget.item!.reference.delete();
                     },
                   ),
                   Padding(
                     padding:
                         const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 4.0, 8.0),
                     child: Text(
-                      valueOrDefault<String>(
-                        formatNumber(
-                          widget.price,
-                          formatType: FormatType.decimal,
-                          decimalType: DecimalType.automatic,
-                          currency: '',
-                        ),
-                        '0',
+                      formatNumber(
+                        widget.item!.price,
+                        formatType: FormatType.decimal,
+                        decimalType: DecimalType.automatic,
+                        currency: '',
                       ),
                       textAlign: TextAlign.end,
                       style: FlutterFlowTheme.of(context).bodyMedium,
                     ),
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  FlutterFlowIconButton(
+                    borderRadius: 0.0,
+                    borderWidth: 0.0,
+                    buttonSize: 40.0,
+                    icon: Icon(
+                      Icons.chevron_right,
+                      color: FlutterFlowTheme.of(context).primaryText,
+                      size: 24.0,
+                    ),
+                    onPressed: () async {
+                      context.pushNamed(
+                        'Checkout',
+                        queryParameters: {
+                          'item': serializeParam(
+                            widget.item,
+                            ParamType.Document,
+                          ),
+                        }.withoutNulls,
+                        extra: <String, dynamic>{
+                          'item': widget.item,
+                        },
+                      );
+                    },
                   ),
                 ],
               ),

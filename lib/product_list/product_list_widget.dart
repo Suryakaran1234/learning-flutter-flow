@@ -146,10 +146,7 @@ class _ProductListWidgetState extends State<ProductListWidget> {
                             key: Key(
                               'Keywyf_${listViewIndex.toString()}',
                             ),
-                            name: listViewMenuItemsRecord.name,
-                            description: listViewMenuItemsRecord.description,
-                            price: listViewMenuItemsRecord.price,
-                            docReference: listViewMenuItemsRecord.reference,
+                            item: listViewMenuItemsRecord,
                           ),
                         );
                       },
